@@ -1,4 +1,4 @@
-const pizza = require('./pizza.js')
+const Pizza = require('./pizza.js')
 
 
-module.exports = { pizza };
+module.exports = { Pizza };

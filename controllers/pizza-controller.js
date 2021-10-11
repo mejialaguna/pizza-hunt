@@ -59,9 +59,9 @@ const pizzaController = {
   },
 
   // delete pizza
-    deletePizza({ params }, res) {
-    // .findOneAndDelete() method, which will find the document to be returned and also delete it from the database. 
-    // Like with updating, we could alternatively use .deleteOne() or .deleteMany(), but we're using the .findOneAndDelete() 
+  deletePizza({ params }, res) {
+    // .findOneAndDelete() method, which will find the document to be returned and also delete it from the database.
+    // Like with updating, we could alternatively use .deleteOne() or .deleteMany(), but we're using the .findOneAndDelete()
     // method because it provides a little more data in case the client wants it.
     Pizza.findOneAndDelete({ _id: params.id })
       .then((dbPizzaData) => {
@@ -74,7 +74,5 @@ const pizzaController = {
       .catch((err) => res.status(400).json(err));
   },
 };
-
-
 
 module.exports = pizzaController;

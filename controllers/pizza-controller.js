@@ -68,6 +68,8 @@ const pizzaController = {
         if (!dbPizzaData) {
           res.status(404).json({ message: "No pizza found with this id!" });
           return;
+        } else {
+          res.json({message: "pizza deleted"})
         }
         res.json(dbPizzaData);
       })

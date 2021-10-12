@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const dateFormat = require("../utils/dateFormat");
 
 const PizzaSchema = new Schema(
   {
@@ -11,6 +12,10 @@ const PizzaSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      // With this get option in place, every time we retrieve a pizza, the value in the createdAt 
+      // field will be formatted by the dateFormat() function and used instead of the default timestamp 
+      // value.This way, we can use the timestamp value for storage, but use a prettier version of it for display.
+      get: (createdAtVal) => dateFormat(createdAtVal),
     },
     size: {
       type: String,
@@ -24,12 +29,12 @@ const PizzaSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: "comment",
       },
-     
     ],
   },
   {
     toJSON: {
       virtuals: true,
+      getters: true
     },
     id: false,
   }

@@ -1,4 +1,4 @@
-const { Pizza } = require("../models");
+const { Pizza } = require("../models/index");
 
 // We'll create all of these functions as methods of the pizzaController object. Because these methods will
 // be used as the callback functions for the Express.js routes, each will take two parameters: req and res.

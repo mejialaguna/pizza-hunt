@@ -19,11 +19,12 @@ const PizzaSchema = new Schema(
     toppings: [],
     // we need to tell Mongoose to expect an ObjectId and to tell
     // it that its data comes from the Comment model.
-    Comments: [
+    comments: [
       {
         type: Schema.Types.ObjectId,
         ref: "comment",
       },
+     
     ],
   },
   {

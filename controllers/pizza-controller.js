@@ -6,7 +6,16 @@ const { Pizza } = require("../models/index");
 const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
+    // used the select option inside of populate(), so that we can tell Mongoose that we don't care about the 
+    // __v field on comments either.The minus sign - in front of the field indicates that we don't want it to 
+    // be returned.If we didn't have it, it would mean that it would return only the __v field.
     Pizza.find({})
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
+      .sort({ _id: -1 })
       .then((dbPizzaData) => res.json(dbPizzaData))
       .catch((err) => {
         console.log(err);
@@ -14,11 +23,22 @@ const pizzaController = {
       });
   },
 
+
+    
+
+
+
   // get one pizza by id
   getPizzaById({ params }, res) {
     //   .findOne() method to find a single pizza by its _id.Instead of accessing the entire req,
     // we've destructured params out of it, because that's the only data we need for this request to be fulfilled
     Pizza.findOne({ _id: params.id })
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
+      .sort({ _id: -1 })
       .then((dbPizzaData) => {
         // If no pizza is found, send 404
         if (!dbPizzaData) {
@@ -69,9 +89,11 @@ const pizzaController = {
           res.status(404).json({ message: "No pizza found with this id!" });
           return;
         } else {
-          res.json({message: "pizza deleted"})
+          res.json({
+              dbPizzaData,
+              message: "pizza deleted"
+            })
         }
-        res.json(dbPizzaData);
       })
       .catch((err) => res.status(400).json(err));
   },

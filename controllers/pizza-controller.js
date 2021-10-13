@@ -58,7 +58,7 @@ const pizzaController = {
   //   req object because we don't need to interface with any of the other data it provides.
   createPizza({ body }, res) {
     Pizza.create(body)
-      .then((dbPizzaData) => res.json(dbPizzaData))
+      .then((dbPizzaData) => res.json({ dbPizzaData , message: 'pizza created'}))
       .catch((err) => res.status(400).json(err));
   },
 
@@ -73,7 +73,10 @@ const pizzaController = {
           res.status(404).json({ message: "No pizza found with this id!" });
           return;
         }
-        res.json(dbPizzaData);
+        res.json({
+          dbPizzaData,
+          message: 'pizza updated'
+        });
       })
       .catch((err) => res.status(400).json(err));
   },

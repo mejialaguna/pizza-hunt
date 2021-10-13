@@ -12,8 +12,8 @@ const PizzaSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // With this get option in place, every time we retrieve a pizza, the value in the createdAt 
-      // field will be formatted by the dateFormat() function and used instead of the default timestamp 
+      // With this get option in place, every time we retrieve a pizza, the value in the createdAt
+      // field will be formatted by the dateFormat() function and used instead of the default timestamp
       // value.This way, we can use the timestamp value for storage, but use a prettier version of it for display.
       get: (createdAtVal) => dateFormat(createdAtVal),
     },
@@ -34,8 +34,11 @@ const PizzaSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
-      getters: true
+      // we'll use getters to transform the data by default every time it's queried.
+      getters: true,
     },
+
+    // prevents virtuals from creating duplicate of _id as `id`
     id: false,
   }
 );
@@ -44,7 +47,8 @@ const PizzaSchema = new Schema(
 // response so that we don't have to add in the information 
 // manually with a helper before responding to the API request
 PizzaSchema.virtual("commentCount").get(function () {
-  return this.comments.length;
+  // .reduce() takes two parameters, an accumulator and a currentValue. Here, the accumulator is total, and the currentValue is comment. As .reduce() walks through the array, it passes the accumulating total and the current value of comment into the function, with the return of the function revising the total for the next iteration through the array.
+  return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0);
 });
 // , you'll need to add the toJSON property to the schema options. on line 29 to 34
 

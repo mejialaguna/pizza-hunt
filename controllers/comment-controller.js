@@ -2,9 +2,11 @@ const { Comment, Pizza } = require("../models");
 
 const commentController = {
   // add comment to pizza
+  // __________________________question this part _______________________________________
   addComment({ params, body }, res) {
-    console.log("=================================" , body);
+    console.log("=================================", body);
     Comment.create(body)
+      // decontructing params.id
       .then(({ _id }) => {
         return Pizza.findOneAndUpdate(
           { _id: params.pizzaId },
@@ -20,14 +22,29 @@ const commentController = {
           { new: true }
         );
       })
+      // =============================================================
       .then((dbPizzaData) => {
         if (!dbPizzaData) {
           res.status(404).json({ message: "No pizza found with this id!" });
           return;
-        } else {          
-          return res.json({ dbPizzaData , message: "comment added successfully" });
         }
-        
+        return res.json(dbPizzaData);
+      })
+      .catch((err) => res.json(err));
+  },
+  // add reply to comment
+  addReply({ params, body }, res) {
+    Comment.findOneAndUpdate(
+      { _id: params.commentId },
+      { $push: { replies: body } },
+      { new: true }
+    )
+      .then((dbPizzaData) => {
+        if (!dbPizzaData) {
+          res.status(404).json({ message: "No pizza found with this id!" });
+          return;
+        }
+        res.json(dbPizzaData);
       })
       .catch((err) => res.json(err));
   },
@@ -57,10 +74,20 @@ const commentController = {
           res.status(404).json({ message: "No pizza found with this id!" });
           return;
         }
-        res.json({ dbPizzaData  , message: 'comment deleted'});
+        res.json(dbPizzaData);
       })
+      .catch((err) => res.status(400).json(err));
+  },
+  // remove reply
+  removeReply({ params }, res) {
+    Comment.findOneAndUpdate(
+      { _id: params.commentId },
+      { $pull: { replies: { replyId: params.replyId } } },
+      { new: true }
+    )
+      .then((dbPizzaData) => res.json(dbPizzaData))
       .catch((err) => res.json(err));
-  }
+  },
 };
 
 module.exports = commentController;

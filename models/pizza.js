@@ -6,8 +6,8 @@ const PizzaSchema = new Schema(
     pizzaName: {
       type: String,
     },
-    createBy: {
-      type: String,
+    createdBy: {
+      type: String
     },
     createdAt: {
       type: Date,
@@ -15,7 +15,7 @@ const PizzaSchema = new Schema(
       // With this get option in place, every time we retrieve a pizza, the value in the createdAt
       // field will be formatted by the dateFormat() function and used instead of the default timestamp
       // value.This way, we can use the timestamp value for storage, but use a prettier version of it for display.
-      get: (createdAtVal) => dateFormat(createdAtVal),
+      get: (createdAtVal) => dateFormat(createdAtVal)
     },
     size: {
       type: String,
@@ -27,7 +27,7 @@ const PizzaSchema = new Schema(
     comments: [
       {
         type: Schema.Types.ObjectId,
-        ref: "comment",
+        ref: "Comment",
       },
     ],
   },
@@ -56,7 +56,7 @@ PizzaSchema.virtual("commentCount").get(function () {
 
 
 // create the Pizza model using the PizzaSchema
-const Pizza = model("pizza", PizzaSchema)
+const Pizza = model("Pizza", PizzaSchema)
 
 // export the Pizza model
 module.exports = Pizza;

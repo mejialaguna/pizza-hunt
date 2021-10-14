@@ -1,3 +1,4 @@
+
 const $addToppingBtn = document.querySelector('#add-topping');
 const $pizzaForm = document.querySelector('#pizza-form');
 const $customToppingsList = document.querySelector('#custom-toppings-list');
@@ -51,6 +52,27 @@ const handlePizzaSubmit = event => {
   }
 
   const formData = { pizzaName, createdBy, size, toppings };
+
+  fetch("/api/pizzas"), {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: json.stringify(formData)
+  }
+    .then((response) => {
+      if (!response.ok) {
+      throw new Error('something went wrong!')
+      }
+      response.json()
+    }).then((postResponse) => {
+      console.log(postResponse)
+    })
+    .catch((err) => {
+      console.log(err);
+      saveRecord(formData)
+  })
 };
 
 $pizzaForm.addEventListener('submit', handlePizzaSubmit);

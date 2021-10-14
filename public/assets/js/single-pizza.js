@@ -144,7 +144,7 @@ function handleNewCommentSubmit(event) {
     })
     .then((commentResponse) => {
       console.log(commentResponse);
-      // location.reload();
+      location.reload();
     })
     .catch((err) => {
       console.log(err);
@@ -200,3 +200,15 @@ $newCommentForm.addEventListener("submit", handleNewCommentSubmit);
 $commentSection.addEventListener("submit", handleNewReplySubmit);
 
 getPizza();
+
+
+
+
+
+
+
+
+
+
+
+

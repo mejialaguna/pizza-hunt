@@ -5,9 +5,14 @@ const PizzaSchema = new Schema(
   {
     pizzaName: {
       type: String,
+      required: true,
+      trim: true,
     },
+    // required field option in Mongoose is set to true, it will require data to exist for that field. Also notice the trim option that's been added, which works just like the JavaScript .trim() method and removes white space before and after the input string.
     createdBy: {
-      type: String
+      type: String,
+      required: true,
+      trim: true,
     },
     createdAt: {
       type: Date,
@@ -15,10 +20,13 @@ const PizzaSchema = new Schema(
       // With this get option in place, every time we retrieve a pizza, the value in the createdAt
       // field will be formatted by the dateFormat() function and used instead of the default timestamp
       // value.This way, we can use the timestamp value for storage, but use a prettier version of it for display.
-      get: (createdAtVal) => dateFormat(createdAtVal)
+      get: (createdAtVal) => dateFormat(createdAtVal),
     },
     size: {
       type: String,
+      required: true,
+      // the enum option stands for enumerable, a popular term in web development that refers to a set of data that can be iterated over—much like using the for...in loop to iterate through an object.
+      enum: ["Personal", "Small", "Medium", "Large", "Extra Large"],
       default: "large",
     },
     toppings: [],
